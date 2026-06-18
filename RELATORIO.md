@@ -37,7 +37,7 @@
 
 <mark>`É possivel compilar no Google Colab pelo link: https://colab.research.google.com/drive/1y_QaXc6fwK_sIMhsXuZJiyxmDFib4jCH?usp=sharing`</mark>
 
-![Visualização resultante](cgvis-lab3-visualizacao/Imagens%20de%20visualizações/Gráfico%20de%20Bolhas.png)
+![Visualização resultante](cgvis-lab3-visualizacao/Imagens de visualizações/Gráfico de Bolhas.png)
 
 ## Descrição da visualização
 

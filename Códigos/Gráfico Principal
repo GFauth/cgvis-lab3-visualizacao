@@ -1,0 +1,82 @@
+import pandas as pd
+import plotly.express as px
+
+df = pd.read_csv(
+    "/content/datatran2025.csv",
+    sep=";",
+    encoding="latin1"
+)
+
+df["hora"] = pd.to_datetime(
+    df["horario"],
+    format="%H:%M:%S"
+).dt.hour
+
+
+bubble_data = (
+    df.groupby(["dia_semana", "hora"])
+      .size()
+      .reset_index(name="num_acidentes")
+)
+
+ordem_dias = [
+    "domingo",
+    "segunda-feira",
+    "terça-feira",
+    "quarta-feira",
+    "quinta-feira",
+    "sexta-feira",
+    "sábado"
+]
+
+bubble_data["dia_semana"] = pd.Categorical(
+    bubble_data["dia_semana"],
+    categories=ordem_dias,
+    ordered=True
+)
+
+fig = px.scatter(
+    bubble_data,
+    x="hora",
+    y="dia_semana",
+    size="num_acidentes",
+    color="num_acidentes",
+    size_max=40,
+    color_continuous_scale=[
+        [0.00, "#b7f7b7"],
+        [0.25, "#006400"],
+        [0.50, "#ffff00"],
+        [0.75, "#ff8c00"],
+        [1.00, "#ff0000"]
+    ],
+    category_orders={
+        "dia_semana": [
+            "domingo",
+            "segunda-feira",
+            "terça-feira",
+            "quarta-feira",
+            "quinta-feira",
+            "sexta-feira",
+            "sábado"
+        ]
+    },
+    labels={
+        "dia_semana": "Dia da semana",
+        "hora": "Horário",
+        "num_acidentes": "Número de acidentes"
+    },
+    title="Acidentes por Dia da Semana e Horário"
+
+)
+
+fig.update_layout(
+    template="plotly_white",
+    xaxis=dict(
+        tickmode="linear",
+        dtick=1,
+        range=[-0.5, 23.5]
+    )
+)
+
+
+fig.show()
